@@ -1,5 +1,5 @@
 # KF_Status
-Status script for FiveM (ESX)
+A simple, lightweight, syncronized and standalone status script for FiveM
 
 A basic /status script to represent the status and emotions of your character.
 Use /status reset to reset the status
