@@ -1,5 +1,3 @@
-ESX = exports['es_extended']:getSharedObject()
-
 RegisterCommand('status', function(src, args, raw)
   local status = raw:sub(8)
 
@@ -10,18 +8,19 @@ RegisterCommand('status', function(src, args, raw)
 
   if args[1] == '' then
     LocalPlayer.state:set('PlayerStatus', nil, true)
-    ESX.ShowNotification('E\' necessario inserire uno stato!')
+    -- Put your notification export or framework notification event here
     return
   end
 
   -- Length max 20 characters
   if string.len(status) > 20 then
-    ESX.ShowNotification('Lo stato non può superare i 20 caratteri!')
+    -- Put your notification export or framework notification event here
     return
   end
 
   if status == nil then
-    ESX.ShowNotification('E\' necessario inserire uno stato!')
+      -- Put your notification export or framework notification event here
+      return
   else
     LocalPlayer.state:set('PlayerStatus', status, true)
     myStatus = status
@@ -40,7 +39,6 @@ Citizen.CreateThread(function()
       local player = GetPlayerServerId(players[i])
       local pedId = GetPlayerPed(GetPlayerFromServerId(player))
       local status = Player(player).state.PlayerStatus
-      -- print('STATUS' .. json.encode(status))
 
       if status ~= nil or status ~= '' then
         playersStatuses[player] = {
@@ -53,6 +51,8 @@ Citizen.CreateThread(function()
   end
 end)
 
+-- Function to draw 3D Text
+-- Source: https://forum.cfx.re/t/help-drawtext3d/668117/2
 function DrawText3Ds(coords, text)
   local x,y,z = table.unpack(coords)
   local onScreen,_x,_y=World3dToScreen2d(x,y,z)
@@ -69,6 +69,7 @@ function DrawText3Ds(coords, text)
   AddTextComponentString(text)
   DrawText(_x,_y)
   local factor = (string.len(text)) / 370
+  -- Uncomment the line below here to add a semi transparent background to the 3D Text
   -- DrawRect(_x,_y+0.0095, 0.010+ factor, 0.025, 41, 11, 41, 68)
 end
 
@@ -80,6 +81,8 @@ Citizen.CreateThread(function()
     local pCoords = GetEntityCoords(PlayerPedId())
 
     if next(playersStatuses) ~= nil then
+      -- IMPORTANT
+      -- If you or some of your players are experiencing the text to flicker, reduce the sleep below!
       sleep = 5
 
       for k,v in pairs(playersStatuses) do
