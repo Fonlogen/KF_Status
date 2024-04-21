@@ -1,4 +1,4 @@
-# KmF_Status
+# KF_Status
 Status script for FiveM (ESX)
 
 A basic /status script to represent the status and emotions of your character.
